@@ -41,7 +41,12 @@ const customErrorHandler = (err, req, res, next) => {
       .status(StatusCodes.BAD_REQUEST)
       .json({ success: false, message });
   }
-  // console.log(err);
+  if (err && err.name === "CastError") {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ success: false, message: "Invalid identifier" });
+  }
+  console.log(err);
   return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     success: false,
     message: ReasonPhrases.INTERNAL_SERVER_ERROR,
