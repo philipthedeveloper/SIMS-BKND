@@ -60,7 +60,13 @@ app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 // app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(cookieParser());
 
-app.use(cors({ credentials: true, origin: ["http://localhost:5173"] }));
+const CORS_ORIGIN = process.env.CORS_ORIGIN;
+
+console.log(CORS_ORIGIN);
+
+app.use(
+  cors({ credentials: true, origin: ["http://localhost:5173", CORS_ORIGIN] })
+);
 app.use("/api/v1/attendance", validateToken, attendanceRouter);
 app.use("/api/v1/student", validateToken, studentRouter);
 app.use("/api/v1/teacher", validateToken, teacherRouter);
